@@ -25,7 +25,7 @@ from spyne.service import ServiceBase
 db = create_engine('sqlite:////tmp/test.db')
 Session = sessionmaker(bind=db)
 
-from model.category import Category, TableModel
+from application.model.category import Category, TableModel
 
 class CategoryManagerService(ServiceBase):
     @rpc(Mandatory.UnsignedInteger32, _returns=Category)

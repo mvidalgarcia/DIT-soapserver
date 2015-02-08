@@ -4,7 +4,7 @@ from spyne.model.fault import Fault
 from spyne.error import ResourceNotFoundError
 from sqlalchemy.orm.exc import NoResultFound
 
-from category_service import Session
+from service.category_service import Session
 
 # Context
 class DefinedContext(object):
