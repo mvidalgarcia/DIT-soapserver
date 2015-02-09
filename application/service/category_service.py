@@ -1,8 +1,3 @@
-import logging
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger('spyne.protocol.xml').setLevel(logging.DEBUG)
-logging.getLogger('sqlalchemy.engine.base.Engine').setLevel(logging.DEBUG)
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
@@ -18,14 +13,9 @@ from spyne.model.fault import Fault
 from spyne.model.complex import Array
 from spyne.model.complex import Iterable
 from spyne.model.primitive import UnsignedInteger32
-from spyne.server.wsgi import WsgiApplication
 from spyne.service import ServiceBase
 
-
-db = create_engine('sqlite:////tmp/test.db')
-Session = sessionmaker(bind=db)
-
-from application.model.category import Category, TableModel
+from application.model.db import Category
 
 class CategoryManagerService(ServiceBase):
     @rpc(Mandatory.UnsignedInteger32, _returns=Category)

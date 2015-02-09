@@ -1,8 +1,15 @@
+__author__ = 'Marco Vidal Garcia'
+
 from suds import TypeNotFound
 from suds.client import Client
 
 has_permissions = True
 c = Client('http://localhost:8000?wsdl')
+
+#----------------------- #
+# ----- CATEGORIES ----- #
+#----------------------- #
+
 '''
 category1 = c.factory.create("Category")
 category1.name = 'Eating'
@@ -28,4 +35,27 @@ print(retval)
 '''
 #print(c.service.get_category(1))
 
-print(c.service.get_all_category())
+#print(c.service.get_all_category())
+
+
+#----------------------- #
+# ------- PLACES ------- #
+#----------------------- #
+
+'''
+place1 = c.factory.create("Place")
+place1.name = 'McDonalds Restaurant'
+place1.description = 'Fast food restaurant especialised in burgers, fries and resfreshments.'
+place1.lat = 43.37105
+place1.lng = -5.831441
+place1.address = 'Centro Comercial Los Prados, Calle Fernandez Ladreda, s/n 33011 Oviedo, Asturias'
+place1.image = 'http://www.centrocomerciallosprados.com/web/img/locales/26.JPG'
+place1.category_id = 1
+place1.id = 2
+
+retval = c.service.put_place(place1)
+print(retval)
+'''
+#c.service.del_place(1)
+#print(c.service.get_all_place())
+print(c.service.get_place_by_category('Religion'))

@@ -1,10 +1,12 @@
+import logging
+
 from spyne.application import Application
 from spyne.error import InternalError
 from spyne.model.fault import Fault
 from spyne.error import ResourceNotFoundError
 from sqlalchemy.orm.exc import NoResultFound
 
-from service.category_service import Session
+from model.db import Session
 
 # Context
 class DefinedContext(object):
