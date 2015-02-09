@@ -28,8 +28,8 @@ sudo pip3 install virtualenv
 Clone repository:
 
 ```bash
-git clone https://github.com/danynab/DIT-server.git
-cd server-places
+git clone https://github.com/mvidalgarcia/places-server.git
+cd places-server
 ```
 
 Create virtual environment:
