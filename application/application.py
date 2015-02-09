@@ -6,7 +6,7 @@ from spyne.model.fault import Fault
 from spyne.error import ResourceNotFoundError
 from sqlalchemy.orm.exc import NoResultFound
 
-from model.db import Session
+from application.model.db import Session
 
 # Context
 class DefinedContext(object):
@@ -41,10 +41,10 @@ class MyApplication(Application):
         except NoResultFound:
             raise ResourceNotFoundError(ctx.in_object)
 
-        except Fault, e:
+        except Fault as e:
             logging.error(e)
             raise
 
-        except Exception, e:
+        except Exception as e:
             logging.exception(e)
             raise InternalError(e)

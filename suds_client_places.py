@@ -1,6 +1,5 @@
 __author__ = 'Marco Vidal Garcia'
 
-from suds import TypeNotFound
 from suds.client import Client
 
 has_permissions = True
@@ -35,7 +34,7 @@ print(retval)
 '''
 #print(c.service.get_category(1))
 
-#print(c.service.get_all_category())
+print(c.service.get_all_category())
 
 
 #----------------------- #
@@ -58,4 +57,4 @@ print(retval)
 '''
 #c.service.del_place(1)
 #print(c.service.get_all_place())
-print(c.service.get_place_by_category('Religion'))
+#print(c.service.get_place_by_category('Eating'))

@@ -14,6 +14,7 @@ Session = sessionmaker(bind=db)
 
 TableModel = TTableModel(MetaData(bind=db))
 
+
 # Model Category
 class Category(TableModel):
     __tablename__ = 'category'
@@ -22,6 +23,7 @@ class Category(TableModel):
 
     id = UnsignedInteger32(pk=True)
     name = Unicode()
+
 
 # Model Place
 class Place(TableModel):

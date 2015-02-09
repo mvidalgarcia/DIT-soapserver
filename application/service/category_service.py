@@ -1,21 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
-
-from spyne.application import Application
 from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
-from spyne.protocol.soap import Soap11
 from spyne.model.primitive import Mandatory
-from spyne.model.primitive import Unicode
-from spyne.error import InternalError
-from spyne.model.fault import Fault
-from spyne.model.complex import Array
 from spyne.model.complex import Iterable
 from spyne.model.primitive import UnsignedInteger32
 from spyne.service import ServiceBase
 
 from application.model.db import Category
+
 
 class CategoryManagerService(ServiceBase):
     @rpc(Mandatory.UnsignedInteger32, _returns=Category)
