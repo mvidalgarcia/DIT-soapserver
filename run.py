@@ -11,7 +11,7 @@ from application.service.category_service import CategoryManagerService
 from application.service.place_service import PlaceManagerService
 
 from application.model.db import TableModel
-from application.application import MyApplication
+from application.app import MyApplication
 
 
 if __name__=='__main__':
@@ -24,10 +24,10 @@ if __name__=='__main__':
             )
 
     wsgi_app = WsgiApplication(application)
-    server = make_server('0.0.0.0', 8000, wsgi_app)
+    server = make_server('0.0.0.0', 8888, wsgi_app)
 
     TableModel.Attributes.sqla_metadata.create_all()
-    logging.info("listening to http://156.35.95.75:8000")
-    logging.info("wsdl is at: http://156.35.95.75:8000/?wsdl")
+    logging.info("listening to http://156.35.95.75:8888")
+    logging.info("wsdl is at: http://156.35.95.75:8888/?wsdl")
 
     server.serve_forever()

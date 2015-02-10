@@ -3,7 +3,7 @@ __author__ = 'Marco Vidal Garcia'
 from suds.client import Client
 
 has_permissions = True
-c = Client('http://localhost:8000?wsdl')
+c = Client('http://156.35.95.75:8888?wsdl')
 
 #----------------------- #
 # ----- CATEGORIES ----- #
@@ -35,6 +35,8 @@ print(retval)
 #print(c.service.get_category(1))
 
 print(c.service.get_all_category())
+#all_categories = c.service.get_all_category()
+#print(all_categories[0][0].name)
 
 
 #----------------------- #
@@ -56,5 +58,5 @@ retval = c.service.put_place(place1)
 print(retval)
 '''
 #c.service.del_place(1)
-#print(c.service.get_all_place())
+print(c.service.get_all_place())
 #print(c.service.get_place_by_category('Eating'))
