@@ -16,6 +16,8 @@ class CategoryManagerService(ServiceBase):
     @rpc(Category, _returns=UnsignedInteger32)
     def put_category(ctx, category):
         if category.id is None:
+            # Category name to lowecase
+            category.name = category.name.lower()
             ctx.udc.session.add(category)
             ctx.udc.session.flush() # so that we get the category.id value
 

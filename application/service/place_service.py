@@ -49,5 +49,5 @@ class PlaceManagerService(ServiceBase):
 
     @rpc(Mandatory.Unicode, _returns=Iterable(Place))
     def get_place_by_category(ctx, category_name):
-        id = ctx.udc.session.query(Category.id).filter_by(name=category_name).one()
+        id = ctx.udc.session.query(Category.id).filter_by(name=category_name.lower()).one()
         return ctx.udc.session.query(Place).filter_by(category_id=id[0])
