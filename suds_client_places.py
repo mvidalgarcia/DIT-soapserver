@@ -3,7 +3,7 @@ __author__ = 'Marco Vidal Garcia'
 from suds.client import Client
 
 has_permissions = True
-c = Client('http://localhost:8888?wsdl')
+c = Client('http://156.35.95.75:8888/?wsdl')
 
 #----------------------- #
 # ----- CATEGORIES ----- #
@@ -31,9 +31,9 @@ retval = c.service.put_category(category4)
 retval = c.service.put_category(category5)
 retval = c.service.put_category(category6)
 #print(retval)
-'''
-#print(c.service.get_category(1))
 
+#print(c.service.get_category(1))
+'''
 print(c.service.get_all_categories())
 #all_categories = c.service.get_all_category()
 #print(all_categories[0][0].name)
@@ -142,5 +142,6 @@ retval = c.service.put_place(place7)
 #print(retval)
 '''
 #c.service.del_place(1)
-print(c.service.get_all_places())
-#print(c.service.get_near_places_by_category_id(2))
+#print(c.service.get_all_places())
+# (category_id, lat, lng, radius, from_id, elements
+print(c.service.get_near_places_by_category_id(2, 43.363877, -5.851606, 1.30, 3, 1))

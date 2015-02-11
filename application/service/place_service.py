@@ -55,17 +55,20 @@ class PlaceManagerService(ServiceBase):
     def get_near_places_by_category_id(ctx, category_id, lat, lng, radius, from_id, elements):
         places = ctx.udc.session.query(Place).filter_by(category_id=category_id)
         places = places.order_by(asc(Place.id))
+        places = [place for place in places if place.id >= from_id]
         # Filter just near places
         places = [place for place in places if _are_points_closed(place.lat, place.lng, lat, lng, radius)]
         # Just places id greater than from_id
-        return _partition_places(places, from_id, elements)
+        return _partition_places(places, elements)
 
 
 # Aux functions
 
-def _partition_places(places, position, elements):
-    return places if elements is None else [place for place in places[int(position):(int(position) + int(elements))]]
+def _partition_places(places, elements):
+    return places if elements is None else [place for place in places[0:int(elements)]]
 
+
+# Radius in KM
 def _are_points_closed(lat1, lng1, lat2, lng2, radius):
     if lat1 is None or lng1 is None or lat2 is None or lng2 is None or radius is None:
         return True
