@@ -1,12 +1,12 @@
 from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
-from spyne.model.primitive import Mandatory
+from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32
 from spyne.model.complex import Iterable
-from spyne.model.primitive import UnsignedInteger32
 from spyne.service import ServiceBase
+from haversine import haversine
 
 from application.model.db import Place
-from application.model.db import Category
+from sqlalchemy import asc
 
 
 class PlaceManagerService(ServiceBase):
@@ -44,10 +44,30 @@ class PlaceManagerService(ServiceBase):
         ctx.udc.session.query(Place).filter_by(id=place_id).delete()
 
     @rpc(_returns=Iterable(Place))
-    def get_all_place(ctx):
+    def get_all_places(ctx):
         return ctx.udc.session.query(Place)
 
-    @rpc(Mandatory.Unicode, _returns=Iterable(Place))
-    def get_place_by_category(ctx, category_name):
-        id = ctx.udc.session.query(Category.id).filter_by(name=category_name.lower()).one()
-        return ctx.udc.session.query(Place).filter_by(category_id=id[0])
+    @rpc(Mandatory.UnsignedInteger32, _returns=Iterable(Place))
+    def get_places_by_category_id(ctx, category_id):
+        return ctx.udc.session.query(Place).filter_by(category_id=category_id)
+
+    @rpc(Mandatory.UnsignedInteger32, Decimal, Decimal, Decimal, UnsignedInteger32, UnsignedInteger32, _returns=Iterable(Place))
+    def get_near_places_by_category_id(ctx, category_id, lat, lng, radius, from_id, elements):
+        places = ctx.udc.session.query(Place).filter_by(category_id=category_id)
+        places = places.order_by(asc(Place.id))
+        # Filter just near places
+        places = [place for place in places if _are_points_closed(place.lat, place.lng, lat, lng, radius)]
+        # Just places id greater than from_id
+        return _partition_places(places, from_id, elements)
+
+
+# Aux functions
+
+def _partition_places(places, position, elements):
+    return places if elements is None else [place for place in places[int(position):(int(position) + int(elements))]]
+
+def _are_points_closed(lat1, lng1, lat2, lng2, radius):
+    if lat1 is None or lng1 is None or lat2 is None or lng2 is None or radius is None:
+        return True
+    else:
+        return haversine((float(lat1), float(lng1)), (float(lat2), float(lng2))) <= float(radius)

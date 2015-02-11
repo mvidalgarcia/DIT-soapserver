@@ -3,13 +3,13 @@ __author__ = 'Marco Vidal Garcia'
 from suds.client import Client
 
 has_permissions = True
-c = Client('http://156.35.95.75:8888?wsdl')
+c = Client('http://localhost:8888?wsdl')
 
 #----------------------- #
 # ----- CATEGORIES ----- #
 #----------------------- #
 
-
+'''
 category1 = c.factory.create("Category")
 category1.name = 'Eating'
 category2 = c.factory.create("Category")
@@ -31,10 +31,10 @@ retval = c.service.put_category(category4)
 retval = c.service.put_category(category5)
 retval = c.service.put_category(category6)
 #print(retval)
-
+'''
 #print(c.service.get_category(1))
 
-print(c.service.get_all_category())
+print(c.service.get_all_categories())
 #all_categories = c.service.get_all_category()
 #print(all_categories[0][0].name)
 
@@ -106,10 +106,41 @@ place5.address = 'Calle Matemático Pedrayes, 9, 33005 Oviedo, Asturias, Spain'
 place5.image = 'http://www.oxyfitoviedo.es/wp-content/uploads/2014/10/DSC_0340.jpg'
 place5.category_id = 4
 
-#retval = c.service.put_place(place4)
-#print(retval)
+# Religion
 
-#c.service.del_place(1)
-#print(c.service.get_all_place())
-print(c.service.get_place_by_category('hangouts'))
+place6 = c.factory.create("Place")
+place6.name = 'Cathedral of San Salvador'
+place6.description = 'Most representative monument of the city of Oviedo'
+place6.lat = 43.362493
+place6.lng = -5.843607
+place6.address = 'Plaza de Alfonso II El Casto, Oviedo, Asturias'
+place6.image = 'http://www.rotary2201.org/wp-uploads/2014/01/Katedrala-oviedo.jpg'
+place6.category_id = 5
+
+
+# Shopping
+
+place7 = c.factory.create("Place")
+place7.name = 'El Corte Inglés'
+place7.description = 'Anything you wanna buy, you\'ll it here! But it is a bit expensive :('
+place7.lat = 43.363877
+place7.lng = -5.851606
+place7.address = 'Calle de Uría, 9, Oviedo'
+place7.image = 'http://media-cdn.tripadvisor.com/media/photo-s/06/11/83/14/calle-uria.jpg'
+place7.category_id = 6
+
+
+retval = c.service.put_place(place0)
+retval = c.service.put_place(place1)
+retval = c.service.put_place(place2)
+retval = c.service.put_place(place3)
+retval = c.service.put_place(place4)
+retval = c.service.put_place(place5)
+
+retval = c.service.put_place(place6)
+retval = c.service.put_place(place7)
+#print(retval)
 '''
+#c.service.del_place(1)
+print(c.service.get_all_places())
+#print(c.service.get_near_places_by_category_id(2))

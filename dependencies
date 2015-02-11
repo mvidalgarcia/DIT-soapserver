@@ -4,3 +4,4 @@ pytz
 spyne
 suds-jurko
 lxml
+haversine
