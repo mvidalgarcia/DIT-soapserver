@@ -6,6 +6,8 @@ import requests
 import shutil
 import socket  # to get my own ip
 import datetime  # to get timestamp
+import unicodedata
+
 
 from suds.client import Client
 
@@ -42,6 +44,10 @@ def get_gplaces_api_link_photo(photo_reference, api_key):
            '?photoreference='+photo_reference+'&maxwidth=1600&sensor=false&key='+api_key
 
 
+def strip_accents(s):
+    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
+
 # Save one place of each category in the database
 def save_places():
     # 20 results maximum
@@ -72,7 +78,7 @@ def save_places():
                         # Photo query
                         photo_response = requests.get(get_gplaces_api_link_photo(photo_reference, GPLACES_API_KEY), stream=True)
                         if photo_response.status_code == 200:  # if response 200 OK
-                            photo_name = json_place['name']
+                            photo_name = strip_accents(json_place['name'])
                             photo_name = photo_name.replace(' ', '_')+'_'+datetime.datetime.now().strftime("%d-%m-%y_%H.%m")+'.jpg'
                             with open('/srv/images/'+photo_name, 'wb') as f:
                                 shutil.copyfileobj(photo_response.raw, f)
