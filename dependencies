@@ -5,3 +5,4 @@ spyne
 suds-jurko
 lxml
 haversine
+requests

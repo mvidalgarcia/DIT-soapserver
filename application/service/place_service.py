@@ -1,6 +1,6 @@
 from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
-from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32
+from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32, Boolean, Unicode
 from spyne.model.complex import Iterable
 from spyne.service import ServiceBase
 from haversine import haversine
@@ -10,7 +10,7 @@ from sqlalchemy import asc
 
 
 class PlaceManagerService(ServiceBase):
-    @rpc(Mandatory.UnsignedInteger32, _returns=Place)
+    @rpc(Mandatory.Unicode, _returns=Place)
     def get_place(ctx, place_id):
         return ctx.udc.session.query(Place).filter_by(id=place_id).one()
 
@@ -18,7 +18,7 @@ class PlaceManagerService(ServiceBase):
     def put_place(ctx, place):
         if place.id is None:
             ctx.udc.session.add(place)
-            ctx.udc.session.flush() # so that we get the place.id value
+            ctx.udc.session.flush()  # so that we get the place.id value
 
         else:
             if ctx.udc.session.query(Place).get(place.id) is None:
@@ -60,6 +60,10 @@ class PlaceManagerService(ServiceBase):
         places = [place for place in places if _are_points_closed(place.lat, place.lng, lat, lng, radius)]
         # Just places id greater than from_id
         return _partition_places(places, elements)
+
+    @rpc(Mandatory.Unicode, _returns=Boolean)
+    def gplaces_id_exists(ctx, gplaces_id):
+        return ctx.udc.session.query(Place).filter_by(gplaces_id=gplaces_id).count() > 0
 
 
 # Aux functions

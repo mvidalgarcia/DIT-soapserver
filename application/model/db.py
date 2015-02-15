@@ -32,8 +32,8 @@ class Place(TableModel):
     __table_args__ = {"sqlite_autoincrement": True}
 
     id = UnsignedInteger32(pk=True)
+    gplaces_id = Unicode()
     name = Unicode()
-    description = Unicode()
     lat = Decimal()
     lng = Decimal()
     address = Unicode()
