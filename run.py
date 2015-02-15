@@ -1,7 +1,7 @@
 __author__ = 'Marco Vidal Garcia'
 
 import logging
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('spyne.protocol.xml').setLevel(logging.DEBUG)
 logging.getLogger('sqlalchemy.engine.base.Engine').setLevel(logging.DEBUG)
 from spyne.protocol.soap import Soap11

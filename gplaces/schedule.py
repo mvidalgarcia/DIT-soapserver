@@ -11,7 +11,7 @@ def launch_gplaces_collector():
     one_day_seconds = 24*60*60
     while 1:
         #s.enter(5, 1, print_time, kwargs={'a': 'holyshit2'})
-        s.enter(15, 1, gplaces.save_places)
+        s.enter(60, 1, gplaces.save_places)
         s.run()
 
 
