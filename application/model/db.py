@@ -36,6 +36,7 @@ class Place(TableModel):
     name = Unicode()
     lat = Decimal()
     lng = Decimal()
+    rating = Decimal()
     address = Unicode()
     image = Unicode()
     category_id = UnsignedInteger32(fk='category.id')

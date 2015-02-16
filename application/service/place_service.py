@@ -52,10 +52,11 @@ class PlaceManagerService(ServiceBase):
         return ctx.udc.session.query(Place).filter_by(category_id=category_id)
 
     @rpc(Mandatory.UnsignedInteger32, Decimal, Decimal, Decimal, UnsignedInteger32, UnsignedInteger32, _returns=Iterable(Place))
-    def get_near_places_by_category_id(ctx, category_id, lat, lng, radius, from_id, elements):
+    def get_near_places_by_category_id(ctx, category_id, lat, lng, radius, from_id=0, elements=None):
         places = ctx.udc.session.query(Place).filter_by(category_id=category_id)
         places = places.order_by(asc(Place.id))
-        places = [place for place in places if place.id >= from_id]
+        if from_id is not None:
+            places = [place for place in places if place.id >= from_id]
         # Filter just near places
         places = [place for place in places if _are_points_closed(place.lat, place.lng, lat, lng, radius)]
         # Just places id greater than from_id

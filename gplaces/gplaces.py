@@ -45,7 +45,7 @@ def get_gplaces_api_link_photo(photo_reference, api_key):
 
 
 def strip_accents(s):
-    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')
 
 
 # Save one place of each category in the database
@@ -93,6 +93,7 @@ def save_places():
                     current_place.lng = json_place['geometry']['location']['lng']
                     current_place.address = json_place['vicinity']
                     current_place.category_id = category_types[1]
+                    current_place.rating =  json_place['rating']  if 'rating' in json_place else 0.0
                     print('[%s] Saving place ...' % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
                     print(current_place)
                     retval = c.service.put_place(current_place)
@@ -101,13 +102,13 @@ def save_places():
 
             # if no place was saved ...
             if not already_saved:
-                # 20 results per query maximum (Google Places API)
-                if element == 20:
-                    # Query next page of results
-                    # TODO
-                    print("[%s] Going to next page of results ..." % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
-                else:
-                    print("[%s] No more results available ..." % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
+               # 20 results per query maximum (Google Places API)
+               if element == 20:
+                   # Query next page of results
+                   # TODO
+                   print("[%s] Going to next page of results ..." % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
+               else:
+                   print("[%s] No more results available ..." % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
 
         else:
             print("[%s] ERROR: Some problem has happened in the query ..." % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))

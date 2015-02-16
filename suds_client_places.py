@@ -122,7 +122,7 @@ place7.address = 'Calle de Uría, 9, Oviedo'
 place7.image = 'http://media-cdn.tripadvisor.com/media/photo-s/06/11/83/14/calle-uria.jpg'
 place7.category_id = 6
 place7.gplaces_id = '30e344e3bde19b0a0cf78e186f90bd599ffdea00'
-
+place7.rating = 4.5
 '''
 retval = c.service.put_place(place0)
 retval = c.service.put_place(place1)
