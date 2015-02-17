@@ -10,7 +10,7 @@ from sqlalchemy import asc
 
 
 class PlaceManagerService(ServiceBase):
-    @rpc(Mandatory.Unicode, _returns=Place)
+    @rpc(Mandatory.UnsignedInteger32, _returns=Place)
     def get_place(ctx, place_id):
         return ctx.udc.session.query(Place).filter_by(id=place_id).one()
 
