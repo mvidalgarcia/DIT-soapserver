@@ -3,7 +3,7 @@ __author__ = 'Marco Vidal Garcia'
 from suds.client import Client
 
 has_permissions = True
-c = Client('http://localhost:8888/?wsdl')
+c = Client('http://156.35.95.75:8888/?wsdl')
 
 #----------------------- #
 # ----- CATEGORIES ----- #

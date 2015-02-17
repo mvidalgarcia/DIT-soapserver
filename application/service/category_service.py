@@ -42,6 +42,16 @@ class CategoryManagerService(ServiceBase):
 
         ctx.udc.session.query(Category).filter_by(id=category_id).delete()
 
+
+    @rpc(Mandatory.UnsignedInteger32)
+    def del_category_by_name(ctx, category_name):
+        count = ctx.udc.session.query(Category).filter_by(name=category_name).count()
+        if count == 0:
+            raise ResourceNotFoundError(category_name)
+
+        ctx.udc.session.query(Category).filter_by(name=category_name).delete()
+
+
     @rpc(_returns=Iterable(Category))
     def get_all_categories(ctx):
         return ctx.udc.session.query(Category)
