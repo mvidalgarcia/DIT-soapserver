@@ -12,7 +12,7 @@ def launch_gplaces_collector():
     six_hours_seconds = 6*60*60
     while 1:
         #s.enter(5, 1, print_time, kwargs={'a': 'argumento'})
-        s.enter(120, 1, gplaces.collect_one_place_each_category)
+        s.enter(10, 1, gplaces.collect_one_place_each_category)
         s.run()
 
 

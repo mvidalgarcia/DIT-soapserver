@@ -47,9 +47,14 @@ class PlaceManagerService(ServiceBase):
     def get_all_places(ctx):
         return ctx.udc.session.query(Place)
 
-    @rpc(Mandatory.UnsignedInteger32, _returns=Iterable(Place))
-    def get_places_by_category_id(ctx, category_id):
-        return ctx.udc.session.query(Place).filter_by(category_id=category_id)
+    @rpc(Mandatory.UnsignedInteger32, UnsignedInteger32, UnsignedInteger32, _returns=Iterable(Place))
+    def get_places_by_category_id(ctx, category_id, from_id=0, elements=None):
+        places = ctx.udc.session.query(Place).filter_by(category_id=category_id)
+        if from_id is not None:
+            places = [place for place in places if place.id >= from_id]
+            for place in places:
+               place.rating = -1.0 if place.rating == 0.0 else place.rating    
+        return _partition_places(places, elements)
 
     @rpc(Mandatory.UnsignedInteger32, Decimal, Decimal, Decimal, UnsignedInteger32, UnsignedInteger32, _returns=Iterable(Place))
     def get_near_places_by_category_id(ctx, category_id, lat, lng, radius, from_id=0, elements=None):
