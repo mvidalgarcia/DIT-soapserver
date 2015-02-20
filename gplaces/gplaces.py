@@ -134,10 +134,10 @@ def fill_place_fields(current_place, json_place, category_types):
     current_place.category_id = category_types[1]
     # If there's no rating, 0.0 is assigned
     current_place.rating = json_place['rating'] if 'rating' in json_place else 0.0
-    print('[%s] Saving place ...' % datetime.datetime.now().strftime("%d-%m-%y %H:%m"))
+    date_print('Saving place ...')
     print(current_place)
     returned_val = c.service.put_place(current_place)
-    print('[%s] Place id=%s saved.' % (datetime.datetime.now().strftime("%d-%m-%y %H:%m"), returned_val))
+    date_print('Place id=%s saved.' % returned_val)
 
 
 def date_print(statement):
