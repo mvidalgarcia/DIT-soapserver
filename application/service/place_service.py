@@ -79,7 +79,7 @@ class PlaceManagerService(ServiceBase):
         # Just places id greater than from_id
         return _partition_places(places, elements)
 
-    @rpc(Mandatory.Unicode, _returns=Boolean)
+    @rpc(Mandatory.Unicode, Mandatory.UnsignedInteger32, _returns=Boolean)
     def gplaces_id_exists_in_category(ctx, gplaces_id, category_id):
         return ctx.udc.session.query(Place).filter_by(category_id=category_id, gplaces_id=gplaces_id).count() > 0
 
