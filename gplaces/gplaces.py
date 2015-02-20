@@ -108,10 +108,6 @@ def get_gplaces_api_link_photo(photo_reference, api_key):
            '?photoreference='+photo_reference+'&maxwidth=1600&sensor=false&key='+api_key
 
 
-def strip_accents(s):
-    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')
-
-
 # Save binary image in a server folder to serve it as a static file
 def save_place_image(current_place, json_place):
     photo_reference = json_place['photos'][0]['photo_reference']
@@ -146,3 +142,7 @@ def fill_place_fields(current_place, json_place, category_types):
 
 def date_print(statement):
     print("[%s] %s" % (datetime.datetime.now().strftime("%d-%m-%y %H:%M"), statement))
+
+
+def strip_accents(s):
+    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')
