@@ -2,6 +2,7 @@ from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
 from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32, Boolean, Unicode
 from spyne.model.complex import Iterable
+from spyne.model.binary import ByteArray
 from spyne.service import ServiceBase
 from haversine import haversine
 
@@ -70,6 +71,14 @@ class PlaceManagerService(ServiceBase):
     @rpc(Mandatory.Unicode, _returns=Boolean)
     def gplaces_id_exists(ctx, gplaces_id):
         return ctx.udc.session.query(Place).filter_by(gplaces_id=gplaces_id).count() > 0
+
+    @rpc(Unicode, ByteArray(min_occurs=1, nullable=False), _returns=Unicode)
+    def upload_image(ctx, image_name, image_data):
+        print('[IMAGE] IMAGE NAME %s' % image_name)
+        print('[IMAGE] IMAGE DATA %s' % image_data)
+        image_url = 'ditserver.url/'+image_name
+        return image_url
+
 
 
 # Aux functions
