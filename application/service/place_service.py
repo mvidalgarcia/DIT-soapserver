@@ -2,12 +2,21 @@ from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
 from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32, Boolean, Unicode
 from spyne.model.complex import Iterable
-from spyne.model.binary import ByteArray
+from spyne.model.binary import ByteArray, File
 from spyne.service import ServiceBase
 from haversine import haversine
 
 from application.model.db import Place
 from sqlalchemy import asc
+
+import datetime  # to get timestamp
+import socket  # to get my own ip
+import unicodedata
+import os
+import base64
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 class PlaceManagerService(ServiceBase):
@@ -72,12 +81,27 @@ class PlaceManagerService(ServiceBase):
     def gplaces_id_exists(ctx, gplaces_id):
         return ctx.udc.session.query(Place).filter_by(gplaces_id=gplaces_id).count() > 0
 
-    @rpc(Unicode, ByteArray(min_occurs=1, nullable=False), _returns=Unicode)
-    def upload_image(ctx, image_name, image_data):
-        print('[IMAGE] IMAGE NAME %s' % image_name)
-        print('[IMAGE] IMAGE DATA %s' % image_data)
-        image_url = 'ditserver.url/'+image_name
-        return image_url
+    @rpc(Unicode, File(min_occurs=1, nullable=False), _returns=Unicode)
+    def upload_image(ctx, image_name, image_file):
+        image_name = image_name.replace(' ', '_')+'_'+datetime.datetime.now().strftime("%d-%m-%y_%H.%m")+'.jpg'
+        path = os.path.join(os.path.abspath('/srv/images'), image_name)
+        if not path.startswith(os.path.abspath('/srv/images')):
+            raise ValidationError(image_file)
+        f = open(path, 'wb')
+        try:
+            for data in image_file.data:
+                f.write(base64.b64decode(data))
+            logger.debug("File written: %r" % image_name)
+            f.close()
+        except:
+            f.close()
+            os.remove(image_name)
+            logger.debug("File removed: %r" % image_name)
+            raise # again, the client will see an internal error.
+        # Watch out the port!
+        url = 'http://'+socket.gethostbyname(socket.gethostname())+':8080/images/'+image_name
+        return url
+
 
 
 
@@ -93,3 +117,6 @@ def _are_points_closed(lat1, lng1, lat2, lng2, radius):
         return True
     else:
         return haversine((float(lat1), float(lng1)), (float(lat2), float(lng2))) <= float(radius)
+		
+def strip_accents(s):
+	return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')

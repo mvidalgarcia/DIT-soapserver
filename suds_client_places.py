@@ -138,8 +138,8 @@ retval = c.service.put_place(place6)
 #print(retval)
 
 #c.service.del_place(1)
-print(c.service.get_places_by_category_id(4))
-#print(c.service.get_all_places())
+#print(c.service.get_places_by_category_id(4))
+print(c.service.get_all_places())
 #print(c.service.gplaces_id_exists('30e344e3bde19b0a0cf78e186f90bd599ffdea00'))
 # (category_id, lat, lng, radius, from_id, elements
 #print(c.service.get_near_places_by_category_id(2, 43.363877, -5.851606, 1.30, 3, 1))
