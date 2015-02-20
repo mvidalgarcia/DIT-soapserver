@@ -52,8 +52,10 @@ def treat_gplaces_response(response, category_types):
         already_saved = False
         while element < results_count and not already_saved:
             json_place = json_response['results'][element]
-            if c.service.gplaces_id_exists(json_place['id']):  # check if place already exist in DB
-                date_print('Place gplaces_id=%s, name=%s already exists.' % (json_place['id'], json_place['name']))
+            # check if place already exists in DB
+            if c.service.gplaces_id_exists_in_category(json_place['id'], category_types[1]):
+                date_print('Place gplaces_id=%s, name=%s already exists in category_id=%s.'
+                           % (json_place['id'], json_place['name'], category_types[1]))
                 element += 1
             # if place id not exists, save new place
             else:

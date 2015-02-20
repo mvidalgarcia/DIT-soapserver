@@ -1,13 +1,15 @@
 from spyne.decorator import rpc
 from spyne.error import ResourceNotFoundError
+from spyne.error import ValidationError
 from spyne.model.primitive import Mandatory, Decimal, UnsignedInteger32, Boolean, Unicode
 from spyne.model.complex import Iterable
-from spyne.model.binary import ByteArray, File
+from spyne.model.binary import File
 from spyne.service import ServiceBase
 from haversine import haversine
 
 from application.model.db import Place
 from sqlalchemy import asc
+from sqlalchemy import and_
 
 import datetime  # to get timestamp
 import socket  # to get my own ip
@@ -78,8 +80,8 @@ class PlaceManagerService(ServiceBase):
         return _partition_places(places, elements)
 
     @rpc(Mandatory.Unicode, _returns=Boolean)
-    def gplaces_id_exists(ctx, gplaces_id):
-        return ctx.udc.session.query(Place).filter_by(gplaces_id=gplaces_id).count() > 0
+    def gplaces_id_exists_in_category(ctx, gplaces_id, category_id):
+        return ctx.udc.session.query(Place).filter_by(category_id=category_id, gplaces_id=gplaces_id).count() > 0
 
     @rpc(Unicode, File(min_occurs=1, nullable=False), _returns=Unicode)
     def upload_image(ctx, image_name, image_file):
@@ -103,8 +105,6 @@ class PlaceManagerService(ServiceBase):
         return url
 
 
-
-
 # Aux functions
 
 def _partition_places(places, elements):
@@ -117,6 +117,7 @@ def _are_points_closed(lat1, lng1, lat2, lng2, radius):
         return True
     else:
         return haversine((float(lat1), float(lng1)), (float(lat2), float(lng2))) <= float(radius)
-		
+
+
 def strip_accents(s):
-	return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')
+    return ''.join(char for char in unicodedata.normalize('NFD', s) if unicodedata.category(char) != 'Mn')
