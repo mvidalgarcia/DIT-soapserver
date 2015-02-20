@@ -16,10 +16,6 @@ c = Client('http://localhost:8888/?wsdl')
 
 GPLACES_API_KEY = 'AIzaSyAdZKWV1F9NBWVSk7YbCyf-7_NuM7jmFf8'
 
-OVIEDO_CITY_CENTRE_LAT = 43.361490
-OVIEDO_CITY_CENTRE_LNG = -5.850613
-OVIEDO_CITY_CENTRE_KM_RADIUS = 7000
-
 # Categories -> Google Places types
 EATING_TYPES = 'food|restaurant|meal_takeaway'
 HANGOUTS_TYPES = 'night_club|bar|cafe'
@@ -34,11 +30,15 @@ SHOPPING_TYPES = 'shopping_mall|store|grocery_or_supermarket|book_store|' \
 CATEGORIES_TYPES = [(EATING_TYPES, 1), (HANGOUTS_TYPES, 2), (LEISURE_TYPES, 3),
                     (PERSONAL_CARE_TYPES, 4), (RELIGION_TYPES, 5), (SHOPPING_TYPES, 6)]
 
+OVIEDO_CITY_CENTRE_LAT = 43.361490
+OVIEDO_CITY_CENTRE_LNG = -5.850613
+OVIEDO_CITY_CENTRE_KM_RADIUS = 7000
+
 
 # Iterate through each category fetching one result and saving it
 def collect_one_place_each_category():
-    ''' [INFO]: 20 results maximum each page
-        Established coordinates: San Francisco Park centre = 43.361490,-5.850613 | radius = 7000 = 7km '''
+    # [INFO]: 20 results maximum each page
+    # Established coordinates: San Francisco Park centre = 43.361490,-5.850613 | radius = 7000 = 7km
     for category_types in CATEGORIES_TYPES:
         response = urlopen(get_gplaces_api_link_nearby(OVIEDO_CITY_CENTRE_LAT,
                                                        OVIEDO_CITY_CENTRE_LNG,
@@ -48,7 +48,7 @@ def collect_one_place_each_category():
         treat_gplaces_response(response, category_types)
 
 
-# Most of the logic
+# Collector logic
 def treat_gplaces_response(response, category_types):
     str_response = response.read().decode('utf-8')
     json_response = json.loads(str_response)
@@ -145,4 +145,4 @@ def fill_place_fields(current_place, json_place, category_types):
 
 
 def date_print(statement):
-    print("[%s] %s" % (datetime.datetime.now().strftime("%d-%m-%y %H:%m"), statement))
+    print("[%s] %s" % (datetime.datetime.now().strftime("%d-%m-%y %H:%M"), statement))
