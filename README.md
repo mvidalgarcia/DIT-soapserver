@@ -3,7 +3,7 @@ places-server
 
 Web server which provides info about places through a SOAP API.
 
-## Functions
+## API SOAP
 
 ### Categories  
 
