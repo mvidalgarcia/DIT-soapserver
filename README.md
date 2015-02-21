@@ -1,7 +1,33 @@
 places-server
 =============
 
-Web server which provide info about places.
+Web server which provides info about places through a SOAP API.
+
+## Functions
+
+### Categories  
+
+| function name              |
+|----------------------------|
+| get_category(id)           |
+| put_category(category)     |
+| del_category(id)           |
+| del_category_by_name(name) |
+|                            | 
+
+### Places  
+
+| function name                                                                    |
+|----------------------------------------------------------------------------------|
+| get_place(id)                                                                    |
+| put_place(place)                                                                 |
+| del_place(id)                                                                    |
+| get_all_places()                                                                 |
+| get_places_by_category_id(category_id,from_id, elements)                         |
+| get_near_places_by_category_id(category_id, lat, lng, radius, from_id, elements) |
+| gplaces_id_exists_in_category_id(gplaces_id, category_id)                        |
+|                                                                                  |
+
 
 ##  Install
 
@@ -59,6 +85,8 @@ deactivate
 
 ## Run
 
+### places-server
+
 Activate virtual environment:
 
 ```bash
@@ -74,4 +102,33 @@ Deactivate virtual environment:
 ```bash
 deactivate
 ```
-Virtual environment must be activated in order to run the server.
+
+### collector
+
+Go to `gplaces` folder:
+
+```bash
+cd gplaces
+```
+
+Activate virtual environment:
+
+```bash
+. venv/bin/activate
+```
+
+Run collector:
+```bash
+python3 collector.py [hours]
+```
+You can configure the period time of the collector. Default value 6 hours.
+
+Deactivate virtual environment:
+```bash
+deactivate
+```
+
+Note that virtual environment must be activated in order to run both server and collector.  
+  
+It's recommended using `screen` in order to launch both python files and leave them running.
+More information about `screen` in Unix environments [here](https://kb.iu.edu/d/acuy). 
