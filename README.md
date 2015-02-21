@@ -48,7 +48,6 @@ sudo apt-get install zlib1g-dev
 * Mac OS X ([brew](http://brew.sh) required):
 ```bash
 sudo brew update
-sudo apt-get upgrade
 brew install python3
 sudo pip3 install virtualenv
 ```
