@@ -106,16 +106,17 @@ deactivate
 
 ### collector
 
-Go to `gplaces` folder:
-
-```bash
-cd gplaces
-```
 
 Activate virtual environment:
 
 ```bash
 . venv/bin/activate
+```
+
+Go to `gplaces` folder:
+
+```bash
+cd gplaces
 ```
 
 Run collector:
