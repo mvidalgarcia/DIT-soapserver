@@ -38,6 +38,7 @@ Install Python3 tools:
 * Ubuntu:
 ```bash
 sudo apt-get update
+sudo apt-get upgrade
 sudo apt-get -y install python3 python3-pip
 sudo pip3 install virtualenv
 sudo apt-get install libxml2-dev libxslt1-dev python-dev
